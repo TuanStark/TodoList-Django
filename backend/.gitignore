@@ -1,0 +1,9 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Các file khác cũng nên bỏ qua
+venv/
+db.sqlite3
+.env
