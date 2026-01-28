@@ -1,0 +1,18 @@
+# Django Framework
+Django>=5.0,<6.0
+
+# GraphQL
+graphene-django>=3.1.0
+django-graphql-jwt>=0.4.0
+
+# PostgreSQL adapter
+psycopg2-binary>=2.9.9
+
+# CORS headers for frontend communication
+django-cors-headers>=4.3.0
+
+# Environment variables management
+python-decouple>=3.8
+
+# PyJWT for token handling
+PyJWT>=2.8.0
