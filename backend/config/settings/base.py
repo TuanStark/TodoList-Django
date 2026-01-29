@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     # third-party apps
     'graphene_django',
     'corsheaders',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     
     # local apps
     'apps.accounts',
@@ -108,7 +109,8 @@ AUTHENTICATION_BACKENDS = [
 
 # jwt configuration
 GRAPHQL_JWT = {
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    # 'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),   
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_ALLOW_REFRESH': True,
     'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
