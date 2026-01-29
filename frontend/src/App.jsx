@@ -1,35 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { ApolloProvider } from '@apollo/client';
+import client, { getAuthToken, removeAuthToken } from './lib/apolloClient';
+import Login from './components/Login';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        const token = getAuthToken();
+        if (token) {
+            setIsAuthenticated(true);
+        }
+        setLoading(false);
+    }, []);
+
+    const handleLoginSuccess = () => {
+        setIsAuthenticated(true);
+    };
+
+    const handleLogout = () => {
+        removeAuthToken();
+        setIsAuthenticated(false);
+        setCurrentProjectId(null);
+        client.resetStore();
+    };
+
+    if (loading) {
+        return <div className="loading-screen">Loading...</div>;
+    }
+
+    return (
+        <ApolloProvider client={client}>
+            <div className="app">
+                <header className="app-header">
+                    <div className="header-content">
+                        <div className="header-left">
+                            <h1 className="app-title">
+                                Mini Jira
+                            </h1>
+                            <p className="app-subtitle">
+                                Simple Project Management
+                            </p>
+                        </div>
+
+                        {isAuthenticated && (
+                            <div className="header-right">
+                                <button onClick={handleLogout} className="logout-button">
+                                    Sign Out
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </header>
+
+                <main className="app-main">
+                    {!isAuthenticated ? (
+                        <Login onLoginSuccess={handleLoginSuccess} />
+                    ) : (
+                        <h1>HELLO</h1>
+                    )}
+                </main>
+            </div>
+        </ApolloProvider>
+    );
 }
 
-export default App
+export default App;
