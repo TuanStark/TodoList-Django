@@ -178,3 +178,162 @@ export const DELETE_PROJECT = gql`
     }
   }
 `;
+
+export const GET_ALL_TASKS = gql`
+  query GetAllTasks {
+    allTasks {
+      id
+      title
+      description
+      status
+      priority
+      createdAt
+      updatedAt
+      project {
+        id
+        name
+      }
+      assignee {
+        id
+        email
+        fullName
+      }
+    }
+  }
+`;
+
+export const GET_TASKS_BY_PROJECT = gql`
+  query GetTasksByProject($projectId: UUID!) {
+    tasksByProject(projectId: $projectId) {
+      id
+      title
+      description
+      status
+      priority
+      createdAt
+      updatedAt
+      assignee {
+        id
+        email
+        fullName
+      }
+    }
+  }
+`;
+
+export const GET_TASKS_BY_STATUS = gql`
+  query GetTasksByStatus($status: TaskStatusEnum!) {
+    tasksByStatus(status: $status) {
+      id
+      title
+      description
+      priority
+      project {
+        id
+        name
+      }
+      assignee {
+        id
+        fullName
+      }
+    }
+  }
+`;
+
+export const GET_MY_TASKS = gql`
+  query GetMyTasks {
+    myTasks {
+      id
+      title
+      description
+      status
+      priority
+      createdAt
+      project {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const CREATE_TASK = gql`
+  mutation CreateTask(
+    $projectId: UUID!
+    $title: String!
+    $description: String
+    $status: TaskStatusEnum
+    $priority: TaskPriorityEnum
+    $assigneeId: UUID
+  ) {
+    createTask(
+      projectId: $projectId
+      title: $title
+      description: $description
+      status: $status
+      priority: $priority
+      assigneeId: $assigneeId
+    ) {
+      task {
+        id
+        title
+        description
+        status
+        priority
+        createdAt
+        assignee {
+          id
+          email
+          fullName
+        }
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_TASK = gql`
+  mutation UpdateTask(
+    $id: UUID!
+    $title: String
+    $description: String
+    $status: TaskStatusEnum
+    $priority: TaskPriorityEnum
+    $assigneeId: UUID
+  ) {
+    updateTask(
+      id: $id
+      title: $title
+      description: $description
+      status: $status
+      priority: $priority
+      assigneeId: $assigneeId
+    ) {
+      task {
+        id
+        title
+        description
+        status
+        priority
+        updatedAt
+        assignee {
+          id
+          email
+          fullName
+        }
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const DELETE_TASK = gql`
+  mutation DeleteTask($id: UUID!) {
+    deleteTask(id: $id) {
+      success
+      message
+    }
+  }
+`;

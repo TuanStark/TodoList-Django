@@ -4,6 +4,7 @@ import client, { getAuthToken, removeAuthToken } from './lib/apolloClient';
 import Login from './components/Login';
 import './App.css';
 import ProjectList from './components/ProjectList';
+import ProjectDetail from './components/ProjectDetail';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -60,8 +61,13 @@ function App() {
                 <main className="app-main">
                     {!isAuthenticated ? (
                         <Login onLoginSuccess={handleLoginSuccess} />
+                    ) : currentProjectId ? (
+                        <ProjectDetail
+                            projectId={currentProjectId}
+                            onBack={() => setCurrentProjectId(null)}
+                        />
                     ) : (
-                        <ProjectList onProjectSelect={setCurrentProjectId}></ProjectList>
+                        <ProjectList onProjectSelect={setCurrentProjectId} />
                     )}
                 </main>
             </div>
