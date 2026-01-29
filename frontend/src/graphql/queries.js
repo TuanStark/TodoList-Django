@@ -78,3 +78,103 @@ export const REFRESH_TOKEN = gql`
     }
   }
 `;
+
+export const GET_ALL_PROJECTS = gql`
+  query GetAllProjects {
+    allProjects {
+      id
+      name
+      description
+      taskCount
+      createdAt
+      updatedAt
+      owner {
+        id
+        email
+        fullName
+      }
+    }
+  }
+`;
+
+
+export const GET_MY_PROJECTS = gql`
+  query GetMyProjects {
+    myProjects {
+      id
+      name
+      description
+      taskCount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_PROJECT = gql`
+  query GetProject($id: UUID!) {
+    project(id: $id) {
+      id
+      name
+      description
+      taskCount
+      createdAt
+      updatedAt
+      owner {
+        id
+        email
+        fullName
+      }
+      tasks {
+        id
+        title
+        status
+        priority
+        assignee {
+          id
+          email
+          fullName
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_PROJECT = gql`
+  mutation CreateProject($name: String!, $description: String) {
+    createProject(name: $name, description: $description) {
+      project {
+        id
+        name
+        description
+        createdAt
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_PROJECT = gql`
+  mutation UpdateProject($id: UUID!, $name: String, $description: String) {
+    updateProject(id: $id, name: $name, description: $description) {
+      project {
+        id
+        name
+        description
+        updatedAt
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const DELETE_PROJECT = gql`
+  mutation DeleteProject($id: UUID!) {
+    deleteProject(id: $id) {
+      success
+      message
+    }
+  }
+`;

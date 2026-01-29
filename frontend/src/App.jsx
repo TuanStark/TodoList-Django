@@ -3,10 +3,12 @@ import { ApolloProvider } from '@apollo/client';
 import client, { getAuthToken, removeAuthToken } from './lib/apolloClient';
 import Login from './components/Login';
 import './App.css';
+import ProjectList from './components/ProjectList';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [currentProjectId, setCurrentProjectId] = useState(null);
 
     useEffect(() => {
         const token = getAuthToken();
@@ -59,7 +61,7 @@ function App() {
                     {!isAuthenticated ? (
                         <Login onLoginSuccess={handleLoginSuccess} />
                     ) : (
-                        <h1>HELLO</h1>
+                        <ProjectList onProjectSelect={setCurrentProjectId}></ProjectList>
                     )}
                 </main>
             </div>
